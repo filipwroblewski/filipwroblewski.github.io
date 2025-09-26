@@ -36,12 +36,12 @@
   </label>
   <label>
     Tax rate:
-    <input type="number" step="0.01" id="tax_rate" placeholder="e.g. 0.19" value="0.19">
+    <input type="number" step="0.5" id="tax_rate" placeholder="e.g. 5" value="5">
   </label>
   <button onclick="runCalc()">Calculate</button>
 
   <h2>Results</h2>
-  <pre id="output"></pre>
+  <div id="output"></div>
 
   <script>
     function round2(num) {
@@ -67,12 +67,18 @@
       const tax_rate = parseFloat(document.getElementById('tax_rate').value);
 
       if (isNaN(amount_in) || isNaN(annual_rate) || isNaN(months) || isNaN(tax_rate)) {
-        document.getElementById('output').textContent = "Fill all fields with numbers, genius.";
+        document.getElementById('output').textContent = "This thing doesn’t run on air. Put numbers everywhere";
         return;
       }
 
       const result = calc(amount_in, annual_rate, months, tax_rate);
-      document.getElementById('output').textContent = JSON.stringify(result, null, 2);
+      document.getElementById('output').innerHTML = `
+        <div class="result-card">
+          <p><strong>Initial amount:</strong> ${result.initial_amount}</p>
+          <p><strong>Final amount:</strong> ${result.final_amount}</p>
+          <p><strong>Net earnings (after tax):</strong> ${result.net_earnings}</p>
+        </div>
+      `;
     }
   </script>
 </body>
